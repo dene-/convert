@@ -19,21 +19,27 @@
 </head>
 <body>
 
-  <input id="file-input" type="file">
-
-  <a id="commit-id" href="https://github.com/p2r3/convert"></a>
-
-  <div id="file-area">
-    <h2>Click to add your file</h2>
-    <p id="drop-hint-text">or drag and drop it here</p>
-  </div>
-  <div id="side-panel">
-    <button id="mode-button">Advanced mode</button>
-  </div>
+  <input id="file-input" type="file" multiple>
 
   <div id="format-containers">
+    <header id="app-header">
+      <div>
+        <p class="eyebrow">Convert to it</p>
+        <h1>Local file conversion</h1>
+      </div>
+      <p>Files stay on this device.</p>
+    </header>
 
-    <div id="from-container" class="format-container">
+    <section id="source-summary" class="source-summary" aria-live="polite" role="button" tabindex="0">
+      <div>
+        <p class="eyebrow">Input</p>
+        <h2>No file selected</h2>
+        <p>Choose a local file here and the input format will be detected automatically.</p>
+      </div>
+      <button id="change-file-button" type="button">Choose file</button>
+    </section>
+
+    <div id="from-container" class="format-container" hidden>
       <h2>Convert from:</h2>
       <input type="text" id="search-from" class="search" placeholder="Search">
       <div id="from-list" class="format-list">
@@ -42,16 +48,37 @@
     </div>
 
     <div id="to-container" class="format-container">
-      <h2>Convert to:</h2>
+      <div class="format-heading">
+        <h2>Convert to:</h2>
+        <button id="convert-button" class="disabled" hidden>Convert</button>
+      </div>
+      <p id="target-hint" class="section-hint">Pick a target format. Common choices are shown first.</p>
+      <div id="category-tabs" class="category-tabs" aria-label="Format categories">
+        <button type="button" class="selected">Popular</button>
+        <button type="button">Images</button>
+        <button type="button">Video</button>
+        <button type="button">Audio</button>
+        <button type="button">Documents</button>
+        <button type="button">Text</button>
+        <button type="button">Archives</button>
+        <button type="button">Data</button>
+        <button type="button">All</button>
+      </div>
       <input type="text" id="search-to" class="search" placeholder="Search">
-      <div id="to-list" class="format-list">
-
+      <div id="to-list" class="format-list loading" aria-busy="true">
+        <span class="format-skeleton"></span>
+        <span class="format-skeleton"></span>
+        <span class="format-skeleton"></span>
+        <span class="format-skeleton"></span>
+        <span class="format-skeleton"></span>
+        <span class="format-skeleton"></span>
+        <span class="format-skeleton"></span>
+        <span class="format-skeleton"></span>
+        <span class="format-skeleton"></span>
       </div>
     </div>
 
   </div>
-
-  <button id="convert-button" class="disabled">Convert</button>
 
   <div id="popup-bg"></div>
   <div id="popup">
