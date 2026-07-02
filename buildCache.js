@@ -9,6 +9,8 @@ if (await outputFile.exists()) {
   await outputFile.delete();
 }
 
+const serverPort = Number(Bun.env.CACHE_BUILD_PORT || "18080");
+
 const server = Bun.serve({
   async fetch (req) {
     const path = new URL(req.url).pathname.replace("/convert/", "") || "index.html";
@@ -16,7 +18,7 @@ const server = Bun.serve({
     if (!(await file.exists())) return new Response("Not Found", { status: 404 });
     return new Response(file);
   },
-  port: 8080
+  port: serverPort
 });
 
 const browser = await puppeteer.launch({
@@ -33,7 +35,7 @@ await Promise.all([
       if (text === "Built initial format list.") resolve();
     });
   }),
-  page.goto("http://localhost:8080/convert/index.html")
+  page.goto(new URL("/convert/index.html?build-cache=1", server.url).toString())
 ]);
 
 const cacheJSON = await page.evaluate((minify) => {
